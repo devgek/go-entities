@@ -5,7 +5,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-//Contact ...
+// Contact ...
 type Contact struct {
 	entities.Entity  `entity:"type:Contact;name:contact"`
 	OrgType          OrgType     `gorm:"type:integer;not null" form:"gkvOrgType"`
@@ -15,7 +15,7 @@ type Contact struct {
 	ContactAddresses []ContactAddress
 }
 
-//BuildEntityOption ...
+// BuildEntityOption build entity options (implements EntityOptionBuilder)
 func (c Contact) BuildEntityOption() entities.EntityOption {
 	o := entities.EntityOption{}
 	o.ID = c.Entity.ID
@@ -24,7 +24,7 @@ func (c Contact) BuildEntityOption() entities.EntityOption {
 	return o
 }
 
-//LoadRelated load related entities (implements EntityHolder)
+// LoadRelated load related entities (implements EntityHolder)
 func (c *Contact) LoadRelated(db *gorm.DB) error {
 	c.ContactAddresses = []ContactAddress{}
 	db.Model(c).Related(&c.ContactAddresses)

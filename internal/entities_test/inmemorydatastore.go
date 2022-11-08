@@ -17,12 +17,13 @@ var (
 	MustermannStreet = "Short Street"
 )
 
-//NewInMemoryDatastore ...
+// NewInMemoryDatastore ...
 func NewInMemoryDatastore() (*entities.GormEntityDatastoreImpl, error) {
 	db, err := gorm.Open("sqlite3", ":memory:")
 	if err != nil {
 		return nil, err
 	}
+	db.LogMode(true)
 	ds := &entities.GormEntityDatastoreImpl{db}
 
 	db.AutoMigrate(&User{})
