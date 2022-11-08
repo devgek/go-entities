@@ -1,6 +1,6 @@
 module github.com/devgek/go-entities
 
-go 1.17
+go 1.19
 
 require (
 	github.com/jinzhu/gorm v1.9.16

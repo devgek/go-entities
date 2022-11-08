@@ -10,7 +10,9 @@ import (
 func createDatastore() entities.EntityDatastore {
 	inMemoryDS, err := NewInMemoryDatastore()
 	if err != nil {
-		panic(err)
+		if anyerr, ok := err.(interface{}); ok {
+			panic(anyerr)
+		}
 	}
 
 	return inMemoryDS
