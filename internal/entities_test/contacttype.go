@@ -1,4 +1,4 @@
-package gekent
+package gekent_test
 
 //ContactType type of customer relationship
 type ContactType int

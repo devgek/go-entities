@@ -1,4 +1,4 @@
-package gekent
+package gekent_test
 
 import (
 	"github.com/devgek/go-entities"
@@ -7,8 +7,8 @@ import (
 
 // Contact ...
 type Contact struct {
-	entities.Entity  `entity:"type:Contact;name:contact"`
-	OrgType          OrgType     `gorm:"type:integer;not null" form:"gkvOrgType"`
+	gekentities.Entity `entity:"type:Contact;name:contact"`
+	OrgType            OrgType     `gorm:"type:integer;not null" form:"gkvOrgType"`
 	Name             string      `gorm:"type:varchar(100);not null" form:"gkvName"`
 	NameExt          string      `gorm:"type:varchar(100)" form:"gkvNameExt"`
 	ContactType      ContactType `gorm:"type:integer;not null" form:"gkvContactType"`
@@ -16,8 +16,8 @@ type Contact struct {
 }
 
 // BuildEntityOption build entity options (implements EntityOptionBuilder)
-func (c Contact) BuildEntityOption() entities.EntityOption {
-	o := entities.EntityOption{}
+func (c Contact) BuildEntityOption() gekentities.EntityOption {
+	o := gekentities.EntityOption{}
 	o.ID = c.Entity.ID
 	o.Value = c.Name
 

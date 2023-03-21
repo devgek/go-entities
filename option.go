@@ -1,4 +1,4 @@
-package entities
+package gekentities
 
 //EntityOption ...
 type EntityOption struct {

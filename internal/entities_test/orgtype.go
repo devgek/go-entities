@@ -1,4 +1,4 @@
-package gekent
+package gekent_test
 
 //OrgType type of organization (organization/person)
 type OrgType int

@@ -1,14 +1,15 @@
-package gekent
+package gekent_test
 
 import (
 	"testing"
 
-	"github.com/devgek/go-entities"
+	gekentities "github.com/devgek/go-entities"
+	gekent_test "github.com/devgek/go-entities/internal/entities_test"
 	"github.com/stretchr/testify/assert"
 )
 
-func createDatastore() entities.EntityDatastore {
-	inMemoryDS, err := NewInMemoryDatastore()
+func createDatastore() gekentities.EntityDatastore {
+	inMemoryDS, err := gekent_test.NewInMemoryDatastore()
 	if err != nil {
 		if anyerr, ok := err.(interface{}); ok {
 			panic(anyerr)
@@ -21,30 +22,30 @@ func createDatastore() entities.EntityDatastore {
 func TestGetOneEntityBy(t *testing.T) {
 	inMemoryDS := createDatastore()
 
-	var user = User{}
+	var user = gekent_test.User{}
 	err := inMemoryDS.GetOneEntityBy(&user, "name", "Lionel")
 
 	assert.Nil(t, err, "No error expected")
-	assert.Equal(t, MessiName, user.Name, "Expected", MessiName)
-	assert.Equal(t, MessiEmail, user.Email, "Expected", MessiEmail)
+	assert.Equal(t, gekent_test.MessiName, user.Name, "Expected", gekent_test.MessiName)
+	assert.Equal(t, gekent_test.MessiEmail, user.Email, "Expected", gekent_test.MessiEmail)
 
 	err = inMemoryDS.GetOneEntityBy(&user, "name", "Lionex")
 	assert.NotNil(t, err, "Error expected")
-	assert.Equal(t, entities.ErrorEntityNotFountBy, err, "ErrorEntityNotFoundBy expected")
+	assert.Equal(t, gekentities.ErrorEntityNotFountBy, err, "ErrorEntityNotFoundBy expected")
 }
 
 func TestLoadRelated(t *testing.T) {
 	inMemoryDS := createDatastore()
 
-	var contact = Contact{}
-	err := inMemoryDS.GetOneEntityBy(&contact, "name", MustermannName)
+	var contact = gekent_test.Contact{}
+	err := inMemoryDS.GetOneEntityBy(&contact, "name", gekent_test.MustermannName)
 
 	assert.Nil(t, err, "No error expected")
 	assert.Equal(t, MustermannName, contact.Name, "Expected", MustermannName)
 	assert.NotNil(t, contact.ContactAddresses, "Contact should have ContactAddress")
 	assert.Equal(t, MustermannStreet, contact.ContactAddresses[0].Street, "Expected", MustermannStreet)
 
-	var contacts []Contact
+	var contacts []gekent_test.Contact
 	err = inMemoryDS.GetAllEntities(&contacts)
 
 	assert.Nil(t, err, "No error expected")
@@ -54,7 +55,7 @@ func TestLoadRelated(t *testing.T) {
 func TestGetAllEntities(t *testing.T) {
 	inMemoryDS := createDatastore()
 
-	var users []User
+	var users []gekent_test.User
 	err := inMemoryDS.GetAllEntities(&users)
 
 	assert.Nil(t, err, "No error expected")
@@ -64,7 +65,7 @@ func TestGetAllEntities(t *testing.T) {
 func TestCreateEntity(t *testing.T) {
 	inMemoryDS := createDatastore()
 
-	roger := &User{Name: "Roger", Pass: "secret", Email: "roger.federer@atp.com", Role: RoleTypeUser}
+	roger := &gekent_test.User{Name: "Roger", Pass: "secret", Email: "roger.federer@atp.com", Role: gekent_test.RoleTypeUser}
 	err := inMemoryDS.CreateEntity(roger)
 
 	assert.Nil(t, err, "No error expected")
@@ -75,7 +76,7 @@ func TestCreateEntity(t *testing.T) {
 func TestSaveEntity(t *testing.T) {
 	inMemoryDS := createDatastore()
 
-	var messi = User{}
+	var messi = gekent_test.User{}
 	err := inMemoryDS.GetOneEntityBy(&messi, "name", "Lionel")
 
 	assert.Nil(t, err, "No error expected")
@@ -94,7 +95,7 @@ func TestSaveEntity(t *testing.T) {
 func TestDeleteEntityById(t *testing.T) {
 	inMemoryDS := createDatastore()
 
-	roger := &User{Name: "Roger", Pass: "secret", Email: "roger.federer@atp.com", Role: RoleTypeUser}
+	roger := &gekent_test.User{Name: "Roger", Pass: "secret", Email: "roger.federer@atp.com", Role: gekent_test.RoleTypeUser}
 	err := inMemoryDS.CreateEntity(roger)
 
 	assert.Nil(t, err, "No error expected")
@@ -105,8 +106,8 @@ func TestDeleteEntityById(t *testing.T) {
 	err = inMemoryDS.GetOneEntityBy(&roger, "name", "Roger")
 	assert.NotNil(t, err, "Error expected, cause user should be deleted")
 
-	notExistingUser := &User{}
+	notExistingUser := &gekent_test.User{}
 	err = inMemoryDS.DeleteEntityByID(notExistingUser, 99)
 	assert.NotNil(t, err, "Error expected")
-	assert.Equal(t, entities.ErrorEntityNotDeleted, err, "Expected dedicated error ErrorEntityNotDeleted")
+	assert.Equal(t, gekentities.ErrorEntityNotDeleted, err, "Expected dedicated error ErrorEntityNotDeleted")
 }

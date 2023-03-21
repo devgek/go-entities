@@ -1,4 +1,4 @@
-package gekent
+package gekent_test
 
 import (
 	"github.com/devgek/go-entities"
@@ -18,13 +18,13 @@ var (
 )
 
 // NewInMemoryDatastore ...
-func NewInMemoryDatastore() (*entities.GormEntityDatastoreImpl, error) {
+func NewInMemoryDatastore() (*gekentities.GormEntityDatastoreImpl, error) {
 	db, err := gorm.Open("sqlite3", ":memory:")
 	if err != nil {
 		return nil, err
 	}
 	db.LogMode(true)
-	ds := &entities.GormEntityDatastoreImpl{db}
+	ds := &gekentities.GormEntityDatastoreImpl{db}
 
 	db.AutoMigrate(&User{})
 	db.AutoMigrate(&Contact{}, &ContactAddress{})
